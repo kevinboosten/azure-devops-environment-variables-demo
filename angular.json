@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "azure-devops-environment-variables-demo"
+    }
+  },
+  "defaultProject": "azure-devops-environment-variables-demo",
+  "cli": {
+    "analytics": "fd8d1f83-69ba-472d-adf8-75a0fa407ab1"
+  }
 }
