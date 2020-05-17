@@ -29,6 +29,17 @@ stages:
           deploy:
             steps:
             - script: echo Hello, development world!
+            - task: replacetokens@3
+              inputs:
+                targetFiles: '**/main*.js'
+                encoding: 'auto'
+                writeBOM: true
+                actionOnMissing: 'warn'
+                keepToken: false
+                tokenPrefix: '#{'
+                tokenSuffix: '}#'
+                useLegacyPattern: false
+                enableTelemetry: true
 
   - stage: deploy_prd
     displayName: Deploy to production
@@ -42,3 +53,14 @@ stages:
           deploy:
             steps:
             - script: echo Hello, production world!
+            - task: replacetokens@3
+              inputs:
+                targetFiles: '**/main*.js'
+                encoding: 'auto'
+                writeBOM: true
+                actionOnMissing: 'warn'
+                keepToken: false
+                tokenPrefix: '#{'
+                tokenSuffix: '}#'
+                useLegacyPattern: false
+                enableTelemetry: true
