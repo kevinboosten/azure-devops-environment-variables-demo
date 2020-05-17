@@ -31,7 +31,7 @@ stages:
             - script: echo Hello, development world!
             - task: replacetokens@3
               inputs:
-                targetFiles: '**/main*.js'
+                targetFiles: '$(Pipeline.Workspace)/dist/**/main*.js'
                 encoding: 'auto'
                 writeBOM: true
                 actionOnMissing: 'warn'
@@ -55,7 +55,7 @@ stages:
             - script: echo Hello, production world!
             - task: replacetokens@3
               inputs:
-                targetFiles: '**/main*.js'
+                targetFiles: '$(Pipeline.Workspace)/dist/**/main*.js'
                 encoding: 'auto'
                 writeBOM: true
                 actionOnMissing: 'warn'
