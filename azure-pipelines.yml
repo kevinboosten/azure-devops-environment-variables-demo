@@ -34,6 +34,7 @@ stages:
                 targetFiles: '$(Pipeline.Workspace)/dist/**/main*.js'
                 encoding: 'auto'
                 writeBOM: true
+                verbosity: 'detailed'
                 actionOnMissing: 'warn'
                 keepToken: false
                 tokenPrefix: '#{'
@@ -58,6 +59,7 @@ stages:
                 targetFiles: '$(Pipeline.Workspace)/dist/**/main*.js'
                 encoding: 'auto'
                 writeBOM: true
+                verbosity: 'detailed'
                 actionOnMissing: 'warn'
                 keepToken: false
                 tokenPrefix: '#{'
