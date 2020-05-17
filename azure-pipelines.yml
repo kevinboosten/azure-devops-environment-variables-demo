@@ -19,6 +19,9 @@ stages:
 
   - stage: deploy_dev
     displayName: Deploy to development
+    dependsOn:
+      - build
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       - group: DEV
     jobs:
@@ -44,6 +47,10 @@ stages:
 
   - stage: deploy_prd
     displayName: Deploy to production
+    dependsOn:
+      - build
+      - deploy_dev
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))  
     variables:
       - group: PRD
     jobs:
