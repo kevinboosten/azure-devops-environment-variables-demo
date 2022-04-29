@@ -11,65 +11,85 @@ stages:
         steps:
           - task: NodeTool@0
             inputs:
-              versionSpec: '10.x'
+              versionSpec: "10.x"
           - script: npm install
           - script: npm run build -- --prod
           - publish: dist
             artifact: dist
 
-  - stage: deploy_dev
-    displayName: Deploy to development
+  - stage: deploy_dev_1
+    displayName: Deploy to development - 1
     dependsOn:
       - build
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       - group: DEV
     jobs:
-    - deployment: deploy
-      environment: DEV
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - script: echo Hello, development world!
-            - task: replacetokens@3
-              inputs:
-                targetFiles: '$(Pipeline.Workspace)/dist/**/main*.js'
-                encoding: 'auto'
-                writeBOM: true
-                verbosity: 'detailed'
-                actionOnMissing: 'warn'
-                keepToken: false
-                tokenPrefix: '#{'
-                tokenSuffix: '}#'
-                useLegacyPattern: false
-                enableTelemetry: true
+      - deployment: deploy
+        environment: DEV_1
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo Hello, development world!
+
+  - stage: deploy_dev_2
+    displayName: Deploy to development - 2
+    dependsOn:
+      - build
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    variables:
+      - group: DEV
+    jobs:
+      - deployment: deploy
+        environment: DEV_2
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo Hello, development world!
+
+  - stage: deploy_dev_3
+    displayName: Deploy to development - 1
+    dependsOn:
+      - build
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    variables:
+      - group: DEV
+    jobs:
+      - deployment: deploy
+        environment: DEV_3
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo Hello, development world!
 
   - stage: deploy_prd
     displayName: Deploy to production
     dependsOn:
       - build
       - deploy_dev
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))  
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       - group: PRD
     jobs:
-    - deployment: deploy
-      environment: PRD
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - script: echo Hello, production world!
-            - task: replacetokens@3
-              inputs:
-                targetFiles: '$(Pipeline.Workspace)/dist/**/main*.js'
-                encoding: 'auto'
-                writeBOM: true
-                verbosity: 'detailed'
-                actionOnMissing: 'warn'
-                keepToken: false
-                tokenPrefix: '#{'
-                tokenSuffix: '}#'
-                useLegacyPattern: false
-                enableTelemetry: true
+      - deployment: deploy
+        environment: PRD
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo Hello, production world!
+                - task: replacetokens@3
+                  inputs:
+                    targetFiles: "$(Pipeline.Workspace)/dist/**/main*.js"
+                    encoding: "auto"
+                    writeBOM: true
+                    verbosity: "detailed"
+                    actionOnMissing: "warn"
+                    keepToken: false
+                    tokenPrefix: "#{"
+                    tokenSuffix: "}#"
+                    useLegacyPattern: false
+                    enableTelemetry: true
