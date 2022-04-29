@@ -69,7 +69,9 @@ stages:
     displayName: Deploy to production
     dependsOn:
       - build
-      - deploy_dev
+      - deploy_dev_1
+      - deploy_dev_2
+      - deploy_dev_3
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     variables:
       - group: PRD
