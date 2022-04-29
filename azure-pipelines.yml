@@ -65,6 +65,23 @@ stages:
               steps:
                 - script: echo Hello, development world!
 
+  - stage: deploy_dev_4
+    displayName: Deploy to DEV_4
+    lockBehavior: runLatest # actually the default https://docs.microsoft.com/en-us/azure/devops/release-notes/2021/sprint-190-update#support-for-sequential-deployments-rather-than-latest-only-when-using-exclusive-lock-checks
+    dependsOn:
+      - build
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    variables:
+      - group: DEV
+    jobs:
+      - deployment: deploy
+        environment: DEV_4
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo Hello, development world!
+
   - stage: deploy_prd
     displayName: Deploy to production
     dependsOn:
